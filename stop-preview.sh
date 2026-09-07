@@ -4,7 +4,7 @@
 echo "Stopping preview servers..."
 
 if command -v lsof >/dev/null 2>&1; then
-  for PORT in 3000 4173 8765; do
+  for PORT in 3000 4173 4174 4175 4176 4177 5173 8080 8765; do
     PIDS=$(lsof -ti tcp:"$PORT" 2>/dev/null || true)
     if [[ -n "$PIDS" ]]; then
       echo "Freeing port $PORT..."
