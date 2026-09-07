@@ -158,6 +158,7 @@
       .journey-step:nth-child(5) { border-top: 1px solid #111; }
       .job-filters { grid-template-columns: repeat(2, 1fr); }
       .filter-button { grid-column: 2; }
+      .job-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 760px) {
@@ -203,9 +204,8 @@
       .job-filters { grid-template-columns: 1fr; padding: 24px 20px; }
       .filter-button { grid-column: auto; }
       .job-summary { padding: 16px 20px; flex-direction: column; gap: 4px; }
-      .job-card { padding: 28px 20px; grid-template-columns: 1fr; gap: 22px; }
-      .job-details { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 16px; }
-      .job-card .button { margin-top: 0; width: 100%; }
+      .job-list { padding: 24px 20px; grid-template-columns: 1fr; }
+      .job-card { padding: 24px 20px; }
       .faq-entrance { grid-template-columns: 1fr; padding: 28px 20px; }
       .faq-entrance .button { width: 100%; justify-content: center; }
       .footer-top { flex-direction: column; }
@@ -345,8 +345,10 @@
               <button class="filter-button" type="submit">Search roles</button>
             </form>
             <div class="job-summary"><strong>2 open roles</strong><span>Sort: Most recent</span></div>
-            <article class="job-card"><div><h3>HRIS Operation</h3><dl class="job-details"><div class="job-detail"><dt>Location</dt><dd>Guangzhou</dd></div><div class="job-detail"><dt>Department</dt><dd>Human Resources</dd></div><div class="job-detail"><dt>Employment</dt><dd>Full Time</dd></div><div class="job-detail"><dt>Job arrangement</dt><dd>On-site</dd></div><div class="job-detail"><dt>Publish date</dt><dd>Apr 21, 2026</dd></div></dl></div><a class="button" href="#">View role <span>→</span></a></article>
-            <article class="job-card"><div><h3>Graduate Trainee</h3><dl class="job-details"><div class="job-detail"><dt>Location</dt><dd>Jiangmen</dd></div><div class="job-detail"><dt>Employment</dt><dd>Full Time</dd></div><div class="job-detail"><dt>Job arrangement</dt><dd>On-site</dd></div><div class="job-detail"><dt>Publish date</dt><dd>Mar 04, 2026</dd></div></dl></div><a class="button" href="#">View role <span>→</span></a></article>
+            <div class="job-list">
+              <article class="job-card"><h3>HRIS Operation</h3><dl class="job-details"><div class="job-detail"><dt>Location</dt><dd>Guangzhou</dd></div><div class="job-detail"><dt>Department</dt><dd>Human Resources</dd></div><div class="job-detail"><dt>Employment</dt><dd>Full Time</dd></div><div class="job-detail"><dt>Job arrangement</dt><dd>On-site</dd></div><div class="job-detail"><dt>Publish date</dt><dd>Apr 21, 2026</dd></div></dl><a class="button" href="#">View role <span>→</span></a></article>
+              <article class="job-card"><h3>Graduate Trainee</h3><dl class="job-details"><div class="job-detail"><dt>Location</dt><dd>Jiangmen</dd></div><div class="job-detail"><dt>Employment</dt><dd>Full Time</dd></div><div class="job-detail"><dt>Job arrangement</dt><dd>On-site</dd></div><div class="job-detail"><dt>Publish date</dt><dd>Mar 04, 2026</dd></div></dl><a class="button" href="#">View role <span>→</span></a></article>
+            </div>
           </div>
         </div>
         <span class="module-tag">08 Job Opportunities</span>
