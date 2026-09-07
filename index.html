@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lee Kum Kee Careers — Responsive Wireframe</title>
+  <meta name="description" content="Responsive wireframe for the Lee Kum Kee Careers page, structured around reusable CMS components.">
+  <style>
+    :root {
+      --ink: #111;
+      --paper: #fff;
+      --line: #b9b9b9;
+      --soft: #f3f3f3;
+      --page: min(1480px, calc(100vw - 96px));
+      --section-y: clamp(88px, 9vw, 154px);
+      --copy-gap: clamp(22px, 2.2vw, 34px);
+      --card-gap: clamp(18px, 2vw, 30px);
+      --serif: "ABC Arizona Flare", "ABC-Arizona-Flare", Georgia, "Times New Roman", serif;
+      --sans: Arial, Helvetica, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--sans); overflow-x: hidden; }
+    button, input, select { font: inherit; color: inherit; }
+    a { color: inherit; }
+    img, video { max-width: 100%; }
+    .skip-link { position: fixed; left: 12px; top: -60px; z-index: 200; background: #000; color: #fff; padding: 12px 18px; }
+    .skip-link:focus { top: 12px; }
+
+    .header-shell { position: fixed; inset: 0 0 auto; z-index: 100; background: rgba(255,255,255,.98); border-bottom: 1px solid var(--line); transition: transform .28s ease; }
+    .header-shell.is-hidden { transform: translateY(-105%); }
+    .utility-bar { height: 34px; padding: 0 max(28px, calc((100vw - 1740px) / 2)); display: flex; align-items: center; justify-content: flex-end; gap: 24px; border-bottom: 1px solid #ddd; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    .utility-bar button, .cms-toggle { border: 0; background: none; cursor: pointer; text-transform: uppercase; letter-spacing: .08em; }
+    .site-header { min-height: 82px; padding: 12px max(28px, calc((100vw - 1740px) / 2)); display: grid; grid-template-columns: 180px 1fr 52px; align-items: center; gap: 32px; }
+    .brand { display: inline-flex; align-items: center; text-decoration: none; }
+    .logo-placeholder { width: 92px; height: 48px; border: 1px solid #111; display: grid; place-items: center; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .primary-nav { display: flex; justify-content: center; gap: clamp(28px, 4vw, 66px); }
+    .primary-nav a { text-decoration: none; font-size: 14px; font-weight: 700; }
+    .search-button, .menu-button { width: 46px; height: 46px; border: 1px solid #111; background: #fff; cursor: pointer; }
+    .search-button svg { width: 22px; margin: auto; fill: none; stroke: currentColor; stroke-width: 1.7; }
+    .menu-button { display: none; font-size: 11px; text-transform: uppercase; }
+
+    main { padding-top: 117px; }
+    .module { position: relative; border-bottom: 1px solid var(--line); }
+    .module-tag { position: absolute; top: 24px; right: max(28px, calc((100vw - 1740px) / 2)); border: 1px solid #111; padding: 9px 12px; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: none; background: #fff; z-index: 4; white-space: nowrap; }
+    .section-shell { width: var(--page); margin: 0 auto; padding: var(--section-y) 0; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; text-transform: uppercase; overflow-wrap: normal; word-break: normal; }
+    h1 { font-size: clamp(54px, 6.3vw, 116px); line-height: .92; letter-spacing: -.045em; }
+    h2 { font-size: clamp(48px, 5.1vw, 92px); line-height: .95; letter-spacing: -.04em; }
+    h3 { font-size: clamp(28px, 2.4vw, 44px); line-height: 1; letter-spacing: -.025em; }
+    p { font-size: 17px; line-height: 1.72; }
+    .lede { max-width: 720px; }
+    .button, .arrow-link { margin-top: 28px; display: inline-flex; align-items: center; justify-content: space-between; gap: 32px; min-height: 48px; text-transform: uppercase; font-size: 13px; line-height: 1.2; font-weight: 700; letter-spacing: .06em; text-decoration: none; }
+    .button { min-width: 220px; padding: 14px 18px; border: 1px solid #111; }
+    .button.dark { background: #111; color: #fff; }
+    .arrow-link { border-bottom: 1px solid currentColor; padding: 0 0 8px; }
+    .section-intro { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(340px, .75fr); align-items: start; gap: clamp(54px, 8vw, 150px); margin-bottom: clamp(56px, 6vw, 100px); }
+    .section-intro > :last-child { padding-top: .35em; }
+    .media-placeholder { position: relative; overflow: hidden; min-height: 330px; border: 1px solid #111; background: repeating-linear-gradient(135deg, #fff 0 18px, #ececec 18px 36px); display: grid; place-items: center; }
+    .media-placeholder::after { content: ""; position: absolute; inset: -20%; background: linear-gradient(to top right, transparent 49.8%, #aaa 50%, transparent 50.2%); pointer-events: none; }
+    .media-label { position: relative; z-index: 2; max-width: 78%; padding: 10px 16px; background: rgba(255,255,255,.93); text-align: center; font-size: 12px; line-height: 1.35; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .component-note { display: none; }
+    body.show-cms [data-cms] { outline: 2px dashed #111; outline-offset: -8px; }
+    body.show-cms [data-cms] > .component-note { display: block; position: absolute; left: 12px; top: 12px; z-index: 8; background: #111; color: #fff; padding: 7px 9px; font-size: 10px; line-height: 1.2; letter-spacing: .06em; text-transform: uppercase; }
+
+    .hero-media { height: min(68vw, 760px); min-height: 560px; border-left: 0; border-right: 0; }
+    .hero-copy { width: var(--page); margin: 0 auto; padding: clamp(70px, 8vw, 128px) 0; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(340px, .72fr); gap: clamp(54px, 8vw, 150px); align-items: start; }
+    .hero-copy h1 span { display: block; }
+    .hero-copy > div:last-child { padding-top: .35em; }
+
+    .purpose-layout { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); align-items: center; gap: clamp(54px, 8vw, 140px); }
+    .purpose-copy h2 { margin-bottom: var(--copy-gap); }
+    .purpose-media { aspect-ratio: 4 / 3; }
+
+    .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+    .story-card { position: relative; min-width: 0; }
+    .story-card .media-placeholder { aspect-ratio: 16 / 10; }
+    .card-copy { padding: 28px 0 12px; }
+    .card-copy h3 { margin-bottom: 18px; }
+    .card-copy p { max-width: 590px; }
+    .culture-grid .story-card { border-bottom: 1px solid #111; padding-bottom: 28px; }
+
+    .benefit-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid #111; }
+    .benefit-card { min-height: 330px; padding: 34px 28px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+    .benefit-card + .benefit-card { border-left: 1px solid #111; }
+    .icon-placeholder { width: 74px; height: 74px; border: 1px solid #111; display: grid; place-items: center; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-align: center; }
+    .benefit-card h3 { font-size: clamp(24px, 1.8vw, 34px); margin: 48px 0 14px; }
+    .benefit-card p { font-size: 15px; line-height: 1.55; }
+    .disclaimer { margin-top: 22px; font-size: 13px; line-height: 1.5; color: #444; }
+
+    .carousel { overflow: hidden; }
+    .carousel-track { display: flex; gap: var(--card-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 2px; }
+    .carousel-track::-webkit-scrollbar { display: none; }
+    .employee-card { flex: 0 0 calc((100% - (var(--card-gap) * 2)) / 3); min-width: 0; scroll-snap-align: start; }
+    .employee-card .media-placeholder { aspect-ratio: 4 / 5; min-height: 0; }
+    .employee-meta { margin-top: 20px; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; }
+    .employee-card h3 { margin-top: 12px; font-size: clamp(28px, 2vw, 38px); }
+    .employee-quote { margin-top: 16px; font-family: var(--serif); font-size: 21px; line-height: 1.35; }
+    .slider-controls { display: flex; justify-content: flex-end; gap: 10px; margin-top: 32px; }
+    .slider-controls button { width: 52px; height: 52px; border: 1px solid #111; background: #fff; cursor: pointer; font-size: 20px; }
+
+    .pathway-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+    .pathway-card { position: relative; border: 1px solid #111; display: grid; grid-template-rows: auto 1fr; }
+    .pathway-card .media-placeholder { border: 0; border-bottom: 1px solid #111; aspect-ratio: 16 / 9; min-height: 0; }
+    .pathway-card .card-copy { padding: clamp(28px, 3vw, 48px); display: flex; flex-direction: column; align-items: flex-start; }
+    .pathway-card .arrow-link { margin-top: auto; padding-top: 28px; }
+
+    .journey-list { counter-reset: step; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid #111; border-bottom: 1px solid #111; }
+    .journey-step { counter-increment: step; min-height: 250px; padding: 28px 24px; position: relative; }
+    .journey-step + .journey-step { border-left: 1px solid #111; }
+    .journey-step::before { content: "0" counter(step); display: block; font-family: var(--serif); font-size: 52px; margin-bottom: 54px; }
+    .journey-step h3 { font-family: var(--sans); font-size: 15px; font-weight: 700; line-height: 1.3; letter-spacing: .05em; }
+    .journey-step p { margin-top: 12px; font-size: 14px; line-height: 1.5; }
+
+    .jobs-panel { border: 1px solid #111; }
+    .job-filters { padding: clamp(28px, 3vw, 48px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; gap: 14px; border-bottom: 1px solid #111; align-items: end; }
+    .field label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .field select { width: 100%; min-height: 50px; padding: 0 38px 0 14px; border: 1px solid #111; background: #fff; }
+    .filter-button { min-height: 50px; padding: 0 24px; border: 1px solid #111; background: #111; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+    .job-summary { padding: 18px clamp(28px, 3vw, 48px); border-bottom: 1px solid #111; font-size: 13px; display: flex; justify-content: space-between; gap: 20px; }
+    .job-card { padding: clamp(28px, 3vw, 44px) clamp(28px, 3vw, 48px); display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; }
+    .job-card + .job-card { border-top: 1px solid #111; }
+    .job-card h3 { font-size: clamp(24px, 2vw, 34px); }
+    .job-card p { margin-top: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; }
+    .job-card .button { margin-top: 0; min-width: 160px; }
+
+    .faq-list { border-top: 1px solid #111; }
+    details { border-bottom: 1px solid #111; }
+    summary { min-height: 82px; padding: 24px 4px; display: flex; align-items: center; justify-content: space-between; gap: 24px; cursor: pointer; font-size: 18px; font-weight: 700; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; font-family: var(--serif); font-size: 34px; font-weight: 400; }
+    details[open] summary::after { content: "−"; }
+    details p { max-width: 820px; padding: 0 0 32px; }
+
+    footer { border-top: 1px solid #111; padding: 70px max(28px, calc((100vw - 1740px) / 2)) 32px; }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; padding-bottom: 60px; }
+    .footer-top p { max-width: 430px; font-family: var(--serif); font-size: 28px; line-height: 1.25; }
+    .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; padding: 44px 0; border-top: 1px solid #111; }
+    .footer-grid strong, .footer-grid a { display: block; margin-bottom: 13px; font-size: 13px; text-decoration: none; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 24px; border-top: 1px solid #111; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+
+    @media (max-width: 1050px) {
+      :root { --page: min(100% - 48px, 920px); }
+      .primary-nav { gap: 24px; }
+      .site-header { grid-template-columns: 120px 1fr 46px; gap: 18px; }
+      .benefit-grid { grid-template-columns: repeat(2, 1fr); }
+      .benefit-card:nth-child(3) { border-left: 0; border-top: 1px solid #111; }
+      .benefit-card:nth-child(4) { border-top: 1px solid #111; }
+      .employee-card { flex-basis: calc((100% - var(--card-gap)) / 2); }
+      .journey-list { grid-template-columns: repeat(3, 1fr); }
+      .journey-step:nth-child(4) { border-left: 0; border-top: 1px solid #111; }
+      .journey-step:nth-child(5) { border-top: 1px solid #111; }
+      .job-filters { grid-template-columns: repeat(2, 1fr); }
+      .filter-button { grid-column: 2; }
+    }
+
+    @media (max-width: 760px) {
+      :root { --page: calc(100% - 40px); --section-y: 82px; --copy-gap: 18px; --card-gap: 18px; }
+      .utility-bar { height: 32px; padding: 0 18px; gap: 14px; }
+      .utility-bar > a { display: none; }
+      .site-header { min-height: 68px; padding: 9px 18px; grid-template-columns: 1fr auto auto; gap: 8px; }
+      .logo-placeholder { width: 72px; height: 42px; }
+      .primary-nav { display: none; }
+      .menu-button { display: block; }
+      main { padding-top: 101px; }
+      .module-tag { top: 12px; right: 12px; max-width: calc(100% - 24px); padding: 8px 10px; font-size: 11px; }
+      h1 { font-size: clamp(44px, 13vw, 64px); line-height: .94; }
+      h2 { font-size: clamp(39px, 11.4vw, 54px); line-height: .97; }
+      h3 { font-size: 30px; }
+      p { font-size: 16px; line-height: 1.65; }
+      .button, .arrow-link { margin-top: 24px; }
+      .section-intro, .hero-copy, .purpose-layout { grid-template-columns: minmax(0, 1fr); gap: var(--copy-gap); }
+      .section-intro { margin-bottom: 46px; }
+      .section-intro > :last-child, .hero-copy > div:last-child { padding-top: 0; }
+      .hero-media { height: 58vh; min-height: 430px; }
+      .hero-copy { padding: 64px 0 72px; }
+      .purpose-layout { gap: 42px; }
+      .purpose-copy { order: 1; }
+      .purpose-media { order: 2; aspect-ratio: 4 / 3; }
+      .card-grid, .pathway-grid { grid-template-columns: 1fr; }
+      .story-card .media-placeholder { min-height: 0; }
+      .benefit-grid { grid-template-columns: 1fr; }
+      .benefit-card { min-height: 280px; }
+      .benefit-card + .benefit-card, .benefit-card:nth-child(3), .benefit-card:nth-child(4) { border-left: 0; border-top: 1px solid #111; }
+      .employee-card { flex-basis: calc(100% - 22px); }
+      .slider-controls { margin-top: 24px; }
+      .journey-list { grid-template-columns: 1fr; }
+      .journey-step { min-height: 0; display: grid; grid-template-columns: 62px 1fr; column-gap: 18px; padding: 24px 0; }
+      .journey-step + .journey-step, .journey-step:nth-child(4), .journey-step:nth-child(5) { border-left: 0; border-top: 1px solid #111; }
+      .journey-step::before { grid-row: 1 / span 2; margin: 0; padding-left: 4px; font-size: 36px; }
+      .journey-step p { grid-column: 2; }
+      .job-filters { grid-template-columns: 1fr; padding: 24px 20px; }
+      .filter-button { grid-column: auto; }
+      .job-summary { padding: 16px 20px; flex-direction: column; gap: 4px; }
+      .job-card { padding: 28px 20px; grid-template-columns: 1fr; gap: 22px; }
+      .job-card .button { margin-top: 0; width: 100%; }
+      summary { font-size: 16px; }
+      .footer-top { flex-direction: column; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-bottom { flex-direction: column; }
+      body.show-cms [data-cms] { outline-offset: -5px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .header-shell { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="header-shell is-visible">
+    <div class="utility-bar">
+      <a href="#">Consumer Site</a>
+      <button class="cms-toggle" type="button" aria-pressed="false">CMS Notes: Off</button>
+      <button type="button" aria-label="Select language">◎ EN ⌄</button>
+    </div>
+    <div class="site-header">
+      <a class="brand" href="#top" aria-label="Lee Kum Kee home"><span class="logo-placeholder">Logo</span></a>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a href="#why">About Us</a><a href="#jobs">Our Business</a><a href="#culture">Our Commitments</a><a href="#stories">Corporate News</a><a href="#jobs">Careers</a>
+      </nav>
+      <button class="search-button" type="button" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5"></circle><path d="m15 15 5 5"></path></svg></button>
+      <button class="menu-button" type="button" aria-label="Open menu">Menu</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <div id="content">
+      <section class="module hero" data-cms="Hero: full-width media + copy + CTA">
+        <span class="component-note">CMS · Hero media + copy</span>
+        <div class="media-placeholder hero-media" role="img" aria-label="Employee-led hero film or documentary image placeholder"><span class="media-label">Employee-led hero film or documentary image</span></div>
+        <div class="hero-copy">
+          <h1><span>Bring your ambition</span><span>Shape what comes next</span></h1>
+          <div><p>At Lee Kum Kee, your work becomes part of a story that began in 1888 and continues across markets, functions and generations. Join a global business where heritage inspires progress, people are trusted to contribute and different perspectives help bring Chinese culinary culture to the world.</p><a class="button dark" href="#jobs">View open roles <span>→</span></a></div>
+        </div>
+        <span class="module-tag">01 Hero</span>
+      </section>
+
+      <section class="module" id="why" data-cms="Split feature: copy + media">
+        <span class="component-note">CMS · Split media + copy</span>
+        <div class="section-shell purpose-layout">
+          <div class="purpose-copy"><h2>A career grounded in purpose</h2><p>Lee Kum Kee’s mission is to promote Chinese culinary culture worldwide. Whether you work in brand and sales, R&amp;D, digital technology, supply chain, manufacturing or a corporate function, you can use your expertise to respond to real needs, collaborate across markets and help create what comes next.</p><a class="arrow-link" href="#culture">Discover life at Lee Kum Kee <span>→</span></a></div>
+          <div class="media-placeholder purpose-media" role="img" aria-label="Employees across different functions and markets placeholder"><span class="media-label">Employee collage or short work sequence</span></div>
+        </div>
+        <span class="module-tag">02 Why Lee Kum Kee</span>
+      </section>
+
+      <section class="module" id="culture" data-cms="Reusable image card grid: 4 items">
+        <span class="component-note">CMS · Image card grid · 4 items</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>Trusted to make a difference</h2><div><p>Our culture is shaped by Si Li Ji Ren—considering others’ interests—alongside constant entrepreneurship and an uncompromising approach to quality. People are encouraged to collaborate across teams, take ownership, learn through action and hold their work to high standards. It is how individual growth becomes shared progress.</p><a class="arrow-link" href="#">Explore our culture <span>→</span></a></div></div>
+          <div class="card-grid culture-grid">
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">Candid collaboration image</span></div><div class="card-copy"><h3>Grow together</h3><p>Consider others’ interests and turn individual strengths into shared progress.</p></div></article>
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">Impact at work image</span></div><div class="card-copy"><h3>Make an impact</h3><p>Connect your expertise to real needs across consumers, customers and communities.</p></div></article>
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">Ownership in action image</span></div><div class="card-copy"><h3>Take ownership</h3><p>Learn through action, make considered decisions and help shape what comes next.</p></div></article>
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">Quality in practice image</span></div><div class="card-copy"><h3>Deliver with quality</h3><p>Hold every piece of work to high standards and never compromise on what matters.</p></div></article>
+          </div>
+        </div>
+        <span class="module-tag">03 How We Work</span>
+      </section>
+
+      <section class="module" data-cms="Reusable benefit card grid: 4 items">
+        <span class="component-note">CMS · Benefit card grid · 4 items</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>Support for every stage</h2><div><p>People do their best work when they have the support to grow and thrive. Depending on role and location, Lee Kum Kee offers competitive reward, health and wellbeing support, learning and development, and policies that help employees navigate important stages of life.</p></div></div>
+          <div class="benefit-grid">
+            <article class="benefit-card"><span class="icon-placeholder">ICON</span><div><h3>Competitive reward</h3><p>Reward and recognition designed around the role and local market.</p></div></article>
+            <article class="benefit-card"><span class="icon-placeholder">ICON</span><div><h3>Health &amp; wellbeing</h3><p>Support for employees’ physical, mental and emotional wellbeing.</p></div></article>
+            <article class="benefit-card"><span class="icon-placeholder">ICON</span><div><h3>Learning &amp; development</h3><p>Opportunities to build capability through experience, learning and support.</p></div></article>
+            <article class="benefit-card"><span class="icon-placeholder">ICON</span><div><h3>Family &amp; life support</h3><p>Policies that help employees navigate important stages of life.</p></div></article>
+          </div>
+          <p class="disclaimer">Benefits, eligibility and policy details vary by role and location.</p>
+        </div>
+        <span class="module-tag">04 Growth &amp; Benefits</span>
+      </section>
+
+      <section class="module" id="stories" data-cms="Reusable employee story slider">
+        <span class="component-note">CMS · Employee story slider</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>Every career tells a story</h2><div><p>Across functions and markets, our people describe careers shaped by challenge, collaboration and opportunity. Hear how colleagues have grown from early roles into leadership, worked across regions and brought Lee Kum Kee’s values to life in their own way.</p><a class="arrow-link" href="#">Meet our people <span>→</span></a></div></div>
+          <div class="carousel">
+            <div class="carousel-track employee-track" aria-label="Employee stories">
+              <article class="employee-card"><div class="media-placeholder"><span class="media-label">Employee portrait</span></div><p class="employee-meta">Name · Role · Location</p><h3>Cross-market collaboration</h3><p class="employee-quote">“Short employee quote from CMS.”</p></article>
+              <article class="employee-card"><div class="media-placeholder"><span class="media-label">Employee portrait</span></div><p class="employee-meta">Name · Role · Location</p><h3>Professional growth</h3><p class="employee-quote">“Short employee quote from CMS.”</p></article>
+              <article class="employee-card"><div class="media-placeholder"><span class="media-label">Employee portrait</span></div><p class="employee-meta">Name · Role · Location</p><h3>From trainee to leadership</h3><p class="employee-quote">“Short employee quote from CMS.”</p></article>
+              <article class="employee-card"><div class="media-placeholder"><span class="media-label">Employee portrait</span></div><p class="employee-meta">Name · Role · Location</p><h3>A career across regions</h3><p class="employee-quote">“Short employee quote from CMS.”</p></article>
+            </div>
+            <div class="slider-controls"><button type="button" class="prev" aria-label="Previous employee stories">←</button><button type="button" class="next" aria-label="Next employee stories">→</button></div>
+          </div>
+        </div>
+        <span class="module-tag">05 Employee Stories</span>
+      </section>
+
+      <section class="module" data-cms="Reusable image card grid: 2 pathways">
+        <span class="component-note">CMS · Image cards · 2 pathways</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>A strong start can go far</h2><div><p>Students and graduates can build practical experience through internships and structured early-career programmes. Work on real projects, learn from experienced colleagues and explore how your strengths can contribute across functions and markets. Programme availability and timelines vary by location.</p><a class="arrow-link" href="#">Explore early careers <span>→</span></a></div></div>
+          <div class="pathway-grid">
+            <article class="pathway-card"><div class="media-placeholder"><span class="media-label">Internship participant image</span></div><div class="card-copy"><h3>Internships</h3><p>Build practical experience through real projects, guidance and learning on the job.</p><a class="arrow-link" href="#">Discover internships <span>→</span></a></div></article>
+            <article class="pathway-card"><div class="media-placeholder"><span class="media-label">Graduate programme image</span></div><div class="card-copy"><h3>Graduate programmes</h3><p>Develop your strengths through structured experiences across functions and markets.</p><a class="arrow-link" href="#">Discover graduate opportunities <span>→</span></a></div></article>
+          </div>
+        </div>
+        <span class="module-tag">06 Students &amp; Graduates</span>
+      </section>
+
+      <section class="module" data-cms="Process steps repeater: 5 items">
+        <span class="component-note">CMS · Process steps · 5 items</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>Clear steps<br>A human journey</h2><div><p>We want candidates to know what to expect. The journey typically moves from application and review to interviews or role-relevant assessments, followed by offer and onboarding. Steps and timing may vary by role and market, and each stage helps both sides understand the fit.</p><a class="arrow-link" href="#">View recruitment journey <span>→</span></a></div></div>
+          <div class="journey-list">
+            <article class="journey-step"><h3>Application</h3><p>Choose a role and submit your application.</p></article>
+            <article class="journey-step"><h3>Review &amp; shortlist</h3><p>Our recruitment team reviews experience and role fit.</p></article>
+            <article class="journey-step"><h3>Interview or assessment</h3><p>Meet the team and explore the opportunity together.</p></article>
+            <article class="journey-step"><h3>Offer</h3><p>Successful candidates receive role and local employment details.</p></article>
+            <article class="journey-step"><h3>Onboarding</h3><p>Begin your journey with the support you need.</p></article>
+          </div>
+        </div>
+        <span class="module-tag">07 Recruitment Journey</span>
+      </section>
+
+      <section class="module" id="jobs" data-cms="Recruitment feed + controlled taxonomy filters">
+        <span class="component-note">Integration · Recruitment feed + filters</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>Find where you can make an impact</h2><div><p>Explore current opportunities by location, department, job type and working arrangement. Each role should clearly explain the work, expectations and local employment terms, helping you decide where your experience and ambitions can contribute most.</p></div></div>
+          <div class="jobs-panel">
+            <form class="job-filters">
+              <div class="field"><label for="location">Location</label><select id="location"><option>All locations</option><option>Asia Pacific</option><option>Europe</option><option>Americas</option></select></div>
+              <div class="field"><label for="department">Department</label><select id="department"><option>All departments</option><option>Brand &amp; Sales</option><option>R&amp;D</option><option>Supply Chain</option></select></div>
+              <div class="field"><label for="job-type">Job type</label><select id="job-type"><option>All job types</option><option>Permanent</option><option>Internship</option><option>Graduate programme</option></select></div>
+              <div class="field"><label for="arrangement">Work arrangement</label><select id="arrangement"><option>All arrangements</option><option>On-site</option><option>Hybrid</option><option>Remote</option></select></div>
+              <button class="filter-button" type="submit">Search roles</button>
+            </form>
+            <div class="job-summary"><strong>Open roles from recruitment platform</strong><span>Sort: Most recent</span></div>
+            <article class="job-card"><div><h3>Role title from CMS</h3><p>Location · Department · Work arrangement · Posting date</p></div><a class="button" href="#">View role <span>→</span></a></article>
+            <article class="job-card"><div><h3>Role title from CMS</h3><p>Location · Department · Work arrangement · Posting date</p></div><a class="button" href="#">View role <span>→</span></a></article>
+            <article class="job-card"><div><h3>Role title from CMS</h3><p>Location · Department · Work arrangement · Posting date</p></div><a class="button" href="#">View role <span>→</span></a></article>
+          </div>
+        </div>
+        <span class="module-tag">08 Job Opportunities</span>
+      </section>
+
+      <section class="module" data-cms="FAQ category + accordion repeater">
+        <span class="component-note">CMS · FAQ accordion</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>What would you like to know</h2><div><p>Find practical answers about life at Lee Kum Kee, learning and development, applications, interviews, compensation and benefits, and technical support. For role- or market-specific questions, contact the recruiting team listed with the opportunity.</p><a class="arrow-link" href="#">Read all FAQs <span>→</span></a></div></div>
+          <div class="faq-list">
+            <details><summary>What is it like to work at Lee Kum Kee</summary><p>Answer managed by the global or local HR content owner.</p></details>
+            <details><summary>How can I grow my career at Lee Kum Kee</summary><p>Answer managed by the global or local HR content owner.</p></details>
+            <details><summary>What should I expect after applying</summary><p>Answer managed by the global or local HR content owner.</p></details>
+            <details><summary>Where can I find information about benefits</summary><p>Answer managed by the global or local HR content owner.</p></details>
+            <details><summary>Who can help with a technical application issue</summary><p>Answer managed by the recruitment support team.</p></details>
+          </div>
+        </div>
+        <span class="module-tag">09 Frequently Asked Questions</span>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-top"><span class="logo-placeholder">Logo</span><p>Join a global business where heritage inspires progress</p></div>
+    <div class="footer-grid"><div><strong>About Us</strong><a href="#why">Our Purpose</a><a href="#culture">How We Work</a></div><div><strong>Careers</strong><a href="#stories">Our People</a><a href="#jobs">Open Roles</a></div><div><strong>Early Careers</strong><a href="#">Internships</a><a href="#">Graduate Programmes</a></div><div><strong>Support</strong><a href="#">FAQs</a><a href="#">Contact Us</a></div></div>
+    <div class="footer-bottom"><span>© Lee Kum Kee · Wireframe content only</span><span>Privacy · Terms · Accessibility</span></div>
+  </footer>
+
+  <script>
+    (() => {
+      const header = document.querySelector('.header-shell');
+      let previousY = 0;
+      addEventListener('scroll', () => {
+        const currentY = Math.max(scrollY, 0);
+        if (currentY <= 16 || currentY < previousY - 8) header.classList.remove('is-hidden');
+        else if (currentY > previousY + 8) header.classList.add('is-hidden');
+        if (Math.abs(currentY - previousY) > 8 || currentY <= 16) previousY = currentY;
+      }, { passive: true });
+
+      const cmsToggle = document.querySelector('.cms-toggle');
+      cmsToggle.addEventListener('click', () => {
+        const active = document.body.classList.toggle('show-cms');
+        cmsToggle.setAttribute('aria-pressed', String(active));
+        cmsToggle.textContent = `CMS Notes: ${active ? 'On' : 'Off'}`;
+      });
+
+      const track = document.querySelector('.employee-track');
+      document.querySelector('.slider-controls .prev').addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * .88, behavior: 'smooth' }));
+      document.querySelector('.slider-controls .next').addEventListener('click', () => track.scrollBy({ left: track.clientWidth * .88, behavior: 'smooth' }));
+
+      document.querySelector('.job-filters').addEventListener('submit', event => event.preventDefault());
+    })();
+  </script>
+</body>
+</html>
