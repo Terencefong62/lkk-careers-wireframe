@@ -3,8 +3,8 @@
   "private": true,
   "description": "Local preview for the Lee Kum Kee Careers responsive wireframe",
   "scripts": {
-    "preview": "serve . --listen 3000",
-    "preview:open": "serve . --listen 3000 --open /index.html"
+    "preview": "serve . --listen 4173",
+    "preview:open": "serve . --listen 4173 --open /index.html"
   },
   "devDependencies": {
     "serve": "^14.2.4"

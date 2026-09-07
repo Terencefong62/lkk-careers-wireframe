@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PORT="${PORT:-3000}"
+PORT="${PORT:-4173}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 URL="http://localhost:${PORT}/index.html"
 

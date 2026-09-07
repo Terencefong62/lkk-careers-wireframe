@@ -16,7 +16,8 @@ if [[ ! -d node_modules ]]; then
 fi
 
 echo "Starting preview and opening your browser..."
-echo "Preview URL: http://localhost:3000"
+echo "Preview URL: http://localhost:4173"
+echo "If that port is busy, check the next line in this window for the real URL."
 echo "Press Ctrl+C in this window to stop the server."
 echo
 

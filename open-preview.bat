@@ -18,7 +18,7 @@ if not exist node_modules (
 )
 
 echo Starting preview and opening your browser...
-echo Preview URL: http://localhost:3000
+echo Preview URL: http://localhost:4173
 echo Press Ctrl+C in this window to stop the server.
 echo.
 
