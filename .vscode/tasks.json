@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start wireframe preview",
+      "label": "Preview wireframe in Cursor",
       "type": "npm",
       "script": "preview",
       "isBackground": true,
