@@ -92,16 +92,22 @@
     .benefit-card p { font-size: 15px; line-height: 1.55; }
     .disclaimer { margin-top: 22px; font-size: 13px; line-height: 1.5; color: #444; }
 
-    .carousel { overflow: hidden; }
-    .carousel-track { display: flex; gap: var(--card-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 2px; }
-    .carousel-track::-webkit-scrollbar { display: none; }
-    .employee-card { flex: 0 0 calc((100% - (var(--card-gap) * 2)) / 3); min-width: 0; scroll-snap-align: start; }
-    .employee-card .media-placeholder { aspect-ratio: 16 / 10; min-height: 0; }
-    .employee-meta { margin-top: 20px; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; }
-    .employee-card h3 { margin-top: 12px; font-size: clamp(28px, 2vw, 38px); }
-    .employee-quote { margin-top: 16px; font-family: var(--serif); font-size: 21px; line-height: 1.35; }
-    .slider-controls { display: flex; justify-content: flex-end; gap: 10px; margin-top: 32px; }
-    .slider-controls button { width: 52px; height: 52px; border: 1px solid #111; background: #fff; cursor: pointer; font-size: 20px; }
+    .stories-editorial { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(32px, 4vw, 48px); align-items: start; }
+    .story-hero .media-placeholder { aspect-ratio: 16 / 10; min-height: 0; }
+    .story-hero-copy { padding-top: 24px; }
+    .story-hero-copy .employee-meta { margin-top: 0; }
+    .story-hero-copy h3 { margin-top: 12px; font-size: clamp(28px, 2.4vw, 40px); }
+    .story-hero-copy .employee-quote { margin-top: 16px; font-family: var(--serif); font-size: 21px; line-height: 1.35; }
+    .story-hero-copy .arrow-link { margin-top: 28px; }
+    .employee-meta { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; }
+    .story-list { border: 1px solid #111; }
+    .story-list-item { padding: clamp(20px, 2.2vw, 26px); display: grid; grid-template-columns: minmax(96px, 120px) minmax(0, 1fr) auto; gap: 18px 20px; align-items: center; }
+    .story-list-item + .story-list-item { border-top: 1px solid #111; }
+    .story-list-thumb { aspect-ratio: 16 / 10; min-height: 0; }
+    .story-list-item h4 { margin: 0 0 8px; font-family: var(--serif); font-size: clamp(20px, 1.6vw, 26px); font-weight: 400; text-transform: uppercase; line-height: 1.05; letter-spacing: -.025em; }
+    .story-list-item .employee-meta { margin: 0 0 8px; }
+    .story-list-item p { font-size: 14px; line-height: 1.5; }
+    .story-list-item .arrow-link { margin-top: 0; font-size: 12px; padding-bottom: 6px; white-space: nowrap; }
 
     .pathway-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
     .pathway-card { position: relative; border: 1px solid #111; display: grid; grid-template-rows: auto 1fr; }
@@ -160,7 +166,7 @@
       .benefit-grid { grid-template-columns: repeat(2, 1fr); }
       .benefit-card:nth-child(3) { border-left: 0; border-top: 1px solid #111; }
       .benefit-card:nth-child(4) { border-top: 1px solid #111; }
-      .employee-card { flex-basis: calc((100% - var(--card-gap)) / 2); }
+      .stories-editorial { grid-template-columns: 1fr; }
       .journey-list { grid-template-columns: repeat(3, 1fr); }
       .journey-step:nth-child(4) { border-left: 0; border-top: 1px solid #111; }
       .journey-step:nth-child(5) { border-top: 1px solid #111; }
@@ -201,8 +207,9 @@
       .benefit-card { min-height: 280px; padding: 28px 22px; }
       .benefit-card h3 { margin: 36px 0 12px; }
       .benefit-card + .benefit-card, .benefit-card:nth-child(3), .benefit-card:nth-child(4) { border-left: 0; border-top: 1px solid #111; }
-      .employee-card { flex-basis: calc(100% - 22px); }
-      .slider-controls { margin-top: 24px; }
+      .stories-editorial { gap: var(--copy-gap); }
+      .story-list-item { grid-template-columns: 88px minmax(0, 1fr); gap: 14px 16px; }
+      .story-list-item .arrow-link { grid-column: 1 / -1; justify-self: start; }
       .journey-list { grid-template-columns: 1fr; }
       .journey-step { min-height: 0; display: grid; grid-template-columns: 62px 1fr; column-gap: 18px; padding: 24px 0; }
       .journey-step + .journey-step, .journey-step:nth-child(4), .journey-step:nth-child(5) { border-left: 0; border-top: 1px solid #111; }
@@ -298,18 +305,20 @@
         <span class="module-tag">04 Growth &amp; Benefits</span>
       </section>
 
-      <section class="module" id="stories" data-cms="Reusable employee story slider">
-        <span class="component-note">CMS · Employee story slider</span>
+      <section class="module" id="stories" data-cms="Editorial hero + employee story list">
+        <span class="component-note">CMS · Editorial hero + story list</span>
         <div class="section-shell">
-          <div class="section-intro"><h2>Every career tells a story</h2><div><p>Across functions and markets, our people describe careers shaped by challenge, collaboration and opportunity. Hear how colleagues have grown from early roles into leadership, worked across regions and brought Lee Kum Kee’s values to life in their own way.</p><a class="arrow-link" href="#">Meet our people <span>→</span></a></div></div>
-          <div class="carousel">
-            <div class="carousel-track employee-track" aria-label="Employee stories">
-              <article class="employee-card"><div class="media-placeholder"><span class="media-label">Employee story image</span></div><p class="employee-meta">Name · Role · Location</p><h3>Cross-market collaboration</h3><p class="employee-quote">“Short employee quote from CMS.”</p><a class="arrow-link" href="#">Read The Full Story <span>→</span></a></article>
-              <article class="employee-card"><div class="media-placeholder"><span class="media-label">Employee story image</span></div><p class="employee-meta">Name · Role · Location</p><h3>Professional growth</h3><p class="employee-quote">“Short employee quote from CMS.”</p><a class="arrow-link" href="#">Read The Full Story <span>→</span></a></article>
-              <article class="employee-card"><div class="media-placeholder"><span class="media-label">Employee story image</span></div><p class="employee-meta">Name · Role · Location</p><h3>From trainee to leadership</h3><p class="employee-quote">“Short employee quote from CMS.”</p><a class="arrow-link" href="#">Read The Full Story <span>→</span></a></article>
-              <article class="employee-card"><div class="media-placeholder"><span class="media-label">Employee story image</span></div><p class="employee-meta">Name · Role · Location</p><h3>A career across regions</h3><p class="employee-quote">“Short employee quote from CMS.”</p><a class="arrow-link" href="#">Read The Full Story <span>→</span></a></article>
+          <div class="section-intro"><h2>Every career tells a story</h2><div><p>Meet the people behind our work—and explore more voices from across Lee Kum Kee.</p><a class="arrow-link" href="#">Browse all employee stories <span>→</span></a></div></div>
+          <div class="stories-editorial">
+            <article class="story-hero">
+              <div class="media-placeholder"><span class="media-label">Featured employee story image</span></div>
+              <div class="story-hero-copy"><p class="employee-meta">Name · Role · Location</p><h3>Cross-market collaboration</h3><p class="employee-quote">“Short featured employee quote from CMS.”</p><a class="arrow-link" href="#">Read The Full Story <span>→</span></a></div>
+            </article>
+            <div class="story-list" aria-label="More employee stories">
+              <article class="story-list-item"><div class="media-placeholder story-list-thumb"><span class="media-label">Story image</span></div><div><p class="employee-meta">Name · Role · Location</p><h4>Professional growth</h4><p>Teaser sentence for list browsing. Full narrative lives on the story detail page.</p></div><a class="arrow-link" href="#">Read <span>→</span></a></article>
+              <article class="story-list-item"><div class="media-placeholder story-list-thumb"><span class="media-label">Story image</span></div><div><p class="employee-meta">Name · Role · Location</p><h4>From trainee to leadership</h4><p>Teaser sentence for list browsing. Full narrative lives on the story detail page.</p></div><a class="arrow-link" href="#">Read <span>→</span></a></article>
+              <article class="story-list-item"><div class="media-placeholder story-list-thumb"><span class="media-label">Story image</span></div><div><p class="employee-meta">Name · Role · Location</p><h4>A career across regions</h4><p>Teaser sentence for list browsing. Full narrative lives on the story detail page.</p></div><a class="arrow-link" href="#">Read <span>→</span></a></article>
             </div>
-            <div class="slider-controls"><button type="button" class="prev" aria-label="Previous employee stories">←</button><button type="button" class="next" aria-label="Next employee stories">→</button></div>
           </div>
         </div>
         <span class="module-tag">05 Employee Stories</span>
@@ -426,10 +435,6 @@
         cmsToggle.setAttribute('aria-pressed', String(active));
         cmsToggle.textContent = `CMS Notes: ${active ? 'On' : 'Off'}`;
       });
-
-      const track = document.querySelector('.employee-track');
-      document.querySelector('.slider-controls .prev').addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * .88, behavior: 'smooth' }));
-      document.querySelector('.slider-controls .next').addEventListener('click', () => track.scrollBy({ left: track.clientWidth * .88, behavior: 'smooth' }));
 
       document.querySelector('.job-filters').addEventListener('submit', event => event.preventDefault());
     })();
