@@ -122,10 +122,12 @@
     .field select { width: 100%; min-height: 50px; padding: 0 38px 0 14px; border: 1px solid #111; background: #fff; }
     .filter-button { min-height: 50px; padding: 0 24px; border: 1px solid #111; background: #111; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
     .job-summary { padding: 18px clamp(28px, 3vw, 48px); border-bottom: 1px solid #111; font-size: 13px; display: flex; justify-content: space-between; gap: 20px; }
-    .job-card { padding: clamp(28px, 3vw, 44px) clamp(28px, 3vw, 48px); display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; }
+    .job-card { padding: clamp(28px, 3vw, 44px) clamp(28px, 3vw, 48px); display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start; }
     .job-card + .job-card { border-top: 1px solid #111; }
     .job-card h3 { font-size: clamp(24px, 2vw, 34px); }
-    .job-card p { margin-top: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; }
+    .job-details { margin-top: 22px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px 24px; }
+    .job-detail dt { margin: 0 0 6px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #444; }
+    .job-detail dd { margin: 0; font-size: 15px; line-height: 1.45; }
     .job-card .button { margin-top: 0; min-width: 160px; }
 
     .faq-entrance { border: 1px solid #111; padding: clamp(36px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(28px, 4vw, 48px); align-items: center; }
@@ -156,6 +158,7 @@
       .journey-step:nth-child(5) { border-top: 1px solid #111; }
       .job-filters { grid-template-columns: repeat(2, 1fr); }
       .filter-button { grid-column: 2; }
+      .job-details { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
     @media (max-width: 760px) {
@@ -202,6 +205,7 @@
       .filter-button { grid-column: auto; }
       .job-summary { padding: 16px 20px; flex-direction: column; gap: 4px; }
       .job-card { padding: 28px 20px; grid-template-columns: 1fr; gap: 22px; }
+      .job-details { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 16px; }
       .job-card .button { margin-top: 0; width: 100%; }
       .faq-entrance { grid-template-columns: 1fr; padding: 28px 20px; }
       .faq-entrance .button { width: 100%; justify-content: center; }
@@ -342,8 +346,8 @@
               <button class="filter-button" type="submit">Search roles</button>
             </form>
             <div class="job-summary"><strong>2 open roles</strong><span>Sort: Most recent</span></div>
-            <article class="job-card"><div><h3>HRIS Operation</h3><p>Guangzhou · Human Resources · Full Time · On-site · Apr 21, 2026</p></div><a class="button" href="#">View role <span>→</span></a></article>
-            <article class="job-card"><div><h3>Graduate Trainee</h3><p>Jiangmen · Full Time · On-site · Mar 04, 2026</p></div><a class="button" href="#">View role <span>→</span></a></article>
+            <article class="job-card"><div><h3>HRIS Operation</h3><dl class="job-details"><div class="job-detail"><dt>Location</dt><dd>Guangzhou</dd></div><div class="job-detail"><dt>Department</dt><dd>Human Resources</dd></div><div class="job-detail"><dt>Employment</dt><dd>Full Time</dd></div><div class="job-detail"><dt>Job arrangement</dt><dd>On-site</dd></div><div class="job-detail"><dt>Publish date</dt><dd>Apr 21, 2026</dd></div></dl></div><a class="button" href="#">View role <span>→</span></a></article>
+            <article class="job-card"><div><h3>Graduate Trainee</h3><dl class="job-details"><div class="job-detail"><dt>Location</dt><dd>Jiangmen</dd></div><div class="job-detail"><dt>Employment</dt><dd>Full Time</dd></div><div class="job-detail"><dt>Job arrangement</dt><dd>On-site</dd></div><div class="job-detail"><dt>Publish date</dt><dd>Mar 04, 2026</dd></div></dl></div><a class="button" href="#">View role <span>→</span></a></article>
           </div>
         </div>
         <span class="module-tag">08 Job Opportunities</span>
