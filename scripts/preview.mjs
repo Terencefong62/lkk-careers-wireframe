@@ -33,7 +33,7 @@ console.log("========================================");
 console.log("");
 
 const args = ["serve", ".", "--listen", String(port)];
-if (OPEN_BROWSER) args.push("--open", "/index.html");
+if (OPEN_BROWSER) args.push("--open", "/careers.html");
 
 const child = spawn("npx", args, {
   stdio: "inherit",

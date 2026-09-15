@@ -3,7 +3,7 @@ set -euo pipefail
 
 PORT="${PORT:-4173}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-URL="http://localhost:${PORT}/index.html"
+URL="http://localhost:${PORT}/careers.html"
 
 cd "$ROOT"
 
@@ -26,6 +26,6 @@ elif command -v python3 >/dev/null 2>&1; then
 else
   echo "No local server found."
   echo "Open this file directly in your browser:"
-  echo "${ROOT}/index.html"
+  echo "${ROOT}/careers.html"
   exit 1
 fi
