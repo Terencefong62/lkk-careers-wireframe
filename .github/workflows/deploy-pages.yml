@@ -29,6 +29,8 @@ jobs:
           mkdir -p _site
           cp careers.html _site/careers.html
           cp careers.html _site/index.html
+          cp careers-zh-Hans.html _site/
+          cp careers-zh-Hant.html _site/
           cp .nojekyll _site/
 
       - name: Upload Pages artifact
