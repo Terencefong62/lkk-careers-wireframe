@@ -83,6 +83,8 @@
     .card-copy h3 { margin-bottom: 18px; }
     .card-copy p { max-width: 590px; }
     .culture-grid .story-card { border-bottom: 1px solid #111; padding-bottom: 28px; }
+    .values-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+    .values-grid .story-card { border-bottom: 1px solid #111; padding-bottom: 28px; }
 
     .benefit-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid #111; }
     .benefit-card { min-height: 330px; padding: 34px 28px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
@@ -201,7 +203,7 @@
       .purpose-layout { gap: 42px; }
       .purpose-copy { order: 1; }
       .purpose-media { order: 2; aspect-ratio: 4 / 3; }
-      .card-grid, .pathway-grid { grid-template-columns: 1fr; }
+      .card-grid, .pathway-grid, .values-grid { grid-template-columns: 1fr; }
       .story-card .media-placeholder { min-height: 0; }
       .benefit-grid { grid-template-columns: 1fr; }
       .benefit-card { min-height: 280px; padding: 28px 22px; }
@@ -248,7 +250,7 @@
     <div class="site-header">
       <a class="brand" href="#top" aria-label="Lee Kum Kee home"><span class="logo-placeholder">Logo</span></a>
       <nav class="primary-nav" aria-label="Primary navigation">
-        <a href="#why">About Us</a><a href="#jobs">Our Business</a><a href="#culture">Our Commitments</a><a href="#stories">Corporate News</a><a href="#jobs">Careers</a>
+        <a href="#how-we-work">About Us</a><a href="#jobs">Our Business</a><a href="#culture">Our Commitments</a><a href="#stories">Corporate News</a><a href="#jobs">Careers</a>
       </nav>
       <button class="search-button" type="button" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5"></circle><path d="m15 15 5 5"></path></svg></button>
       <button class="menu-button" type="button" aria-label="Open menu">Menu</button>
@@ -261,19 +263,23 @@
         <span class="component-note">CMS · Hero media + copy</span>
         <div class="media-placeholder hero-media" role="img" aria-label="Employee-led hero film or documentary image placeholder"><span class="media-label">Employee-led hero film or documentary image</span></div>
         <div class="hero-copy">
-          <h1><span>Bring your ambition</span><span>Shape what comes next</span></h1>
-          <div><p>At Lee Kum Kee, your work becomes part of a story that began in 1888 and continues across markets, functions and generations. Join a global business where heritage inspires progress, people are trusted to contribute and different perspectives help bring Asian culinary culture to the world.</p><div class="hero-actions"><a class="button dark" href="#why">Begin The Journey <span>→</span></a><a class="button" href="#jobs">View Open Roles <span>→</span></a></div></div>
+          <h1>Be part of what comes next</h1>
+          <div><p>Behind every Lee Kum Kee product are people whose skills help bring delicious food to consumers and professional customers. From R&amp;D and manufacturing to supply chain, sales, brand and corporate functions, discover how your expertise can contribute to a global food business and help shape its next chapter.</p><div class="hero-actions"><a class="button dark" href="#how-we-work">Begin The Journey <span>→</span></a><a class="button" href="#jobs">View Open Roles <span>→</span></a></div></div>
         </div>
-        <span class="module-tag">01 Hero</span>
+        <span class="module-tag">01 Careers at Lee Kum Kee</span>
       </section>
 
-      <section class="module" id="why" data-cms="Split feature: copy + media">
-        <span class="component-note">CMS · Split media + copy</span>
-        <div class="section-shell purpose-layout">
-          <div class="purpose-copy"><h2>Your expertise, our shared mission</h2><p>Our mission is to promote Asian culinary culture worldwide—and that mission comes to life through the people who work here. Whether you join sales and marketing, R&amp;D, digital technology, supply chain, manufacturing or a corporate function, you will see how your role connects to real consumer and customer needs, collaborate across markets, and contribute to outcomes that reach communities around the world. This is the employee proposition at Lee Kum Kee: a clear line from what we stand for to what you can build in your career.</p></div>
-          <div class="media-placeholder purpose-media" role="img" aria-label="Employees across different functions and markets placeholder"><span class="media-label">Employee collage or short work sequence</span></div>
+      <section class="module" id="how-we-work" data-cms="Section intro + value card grid: 3 items">
+        <span class="component-note">CMS · Section intro + value cards · 3 items</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>Our values, in everyday work</h2><div><p>Our values guide how we work with colleagues, customers and partners. They shape how we listen, take responsibility and uphold the quality behind the Lee Kum Kee name.</p></div></div>
+          <div class="card-grid values-grid">
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">Consider others image</span></div><div class="card-copy"><h3>Consider others</h3><p>Si Li Ji Ren means considering the interests of others. We listen to different perspectives and take account of other teams’ needs as we work towards shared goals.</p></div></article>
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">Keep improving image</span></div><div class="card-copy"><h3>Keep improving</h3><p>Constant Entrepreneurship encourages us to stay curious, take initiative and improve how things are done, while taking responsibility for the outcome.</p></div></article>
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">Uphold quality image</span></div><div class="card-copy"><h3>Uphold quality</h3><p>Guided by our 100-1=0 quality philosophy, we bring care and responsibility to our products, processes and everyday work.</p></div></article>
+          </div>
         </div>
-        <span class="module-tag">02 Why Lee Kum Kee</span>
+        <span class="module-tag">02 How We Work</span>
       </section>
 
       <section class="module" id="culture" data-cms="Reusable image card grid: 4 items">
@@ -287,7 +293,7 @@
             <article class="story-card"><div class="media-placeholder"><span class="media-label">Quality in practice image</span></div><div class="card-copy"><h3>Deliver with Quality</h3><p>Our uncompromising approach to quality means every contribution matters—whether in product, service, process or how we support one another.</p></div></article>
           </div>
         </div>
-        <span class="module-tag">03 How We Work</span>
+        <span class="module-tag">03 Culture in practice</span>
       </section>
 
       <section class="module" data-cms="Reusable benefit card grid: 4 items">
@@ -414,7 +420,7 @@
 
   <footer>
     <div class="footer-top"><span class="logo-placeholder">Logo</span><p>Join a global business where heritage inspires progress</p></div>
-    <div class="footer-grid"><div><strong>About Us</strong><a href="#why">Our Purpose</a><a href="#culture">How We Work</a></div><div><strong>Careers</strong><a href="#stories">Our People</a><a href="#jobs">Open Roles</a></div><div><strong>Early Careers</strong><a href="#">Internships</a><a href="#">Global Talent Programme</a></div><div><strong>Support</strong><a href="#faq">FAQs</a><a href="#">Contact Us</a></div></div>
+    <div class="footer-grid"><div><strong>About Us</strong><a href="#how-we-work">How We Work</a><a href="#culture">Culture in practice</a></div><div><strong>Careers</strong><a href="#stories">Our People</a><a href="#jobs">Open Roles</a></div><div><strong>Early Careers</strong><a href="#">Internships</a><a href="#">Global Talent Programme</a></div><div><strong>Support</strong><a href="#faq">FAQs</a><a href="#">Contact Us</a></div></div>
     <div class="footer-bottom"><span>© Lee Kum Kee · Wireframe content only</span><span>Privacy · Terms · Accessibility</span></div>
   </footer>
 
