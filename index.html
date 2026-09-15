@@ -146,9 +146,8 @@
     .job-card-link { font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
     .job-card-link:hover { text-decoration: underline; }
 
-    .faq-cta { border: 1px solid #111; padding: clamp(36px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(28px, 4vw, 56px); align-items: center; }
-    .faq-cta h2 { margin: 0; max-width: 14ch; font-size: clamp(40px, 4.4vw, 76px); line-height: .98; letter-spacing: -.035em; text-transform: none; }
-    .faq-cta .button { margin-top: 0; white-space: nowrap; min-width: 200px; }
+    .faq-shell .section-intro { margin-bottom: clamp(20px, 2.5vw, 32px); }
+    .faq-shell .button { margin-top: 0; }
 
     footer { border-top: 1px solid #111; padding: 70px max(28px, calc((100vw - 1740px) / 2)) 32px; }
     .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; padding-bottom: 60px; }
@@ -222,9 +221,7 @@
       .job-card { padding: 22px 20px; }
       .job-card-infos { grid-template-columns: 1fr; }
       .job-card-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
-      .faq-cta { grid-template-columns: 1fr; align-items: start; padding: 28px 20px; gap: 24px; }
-      .faq-cta h2 { max-width: none; font-size: clamp(36px, 10vw, 48px); }
-      .faq-cta .button { width: 100%; min-width: 0; justify-content: center; }
+      .faq-shell .button { width: 100%; justify-content: center; }
       .footer-top { flex-direction: column; }
       .footer-grid { grid-template-columns: repeat(2, 1fr); }
       .footer-bottom { flex-direction: column; }
@@ -382,11 +379,9 @@
 
       <section class="module" id="faq" data-cms="FAQ CTA">
         <span class="component-note">CMS · FAQ CTA</span>
-        <div class="section-shell">
-          <div class="faq-cta">
-            <h2>Questions before you apply?</h2>
-            <a class="button dark" href="#">View all FAQs <span>→</span></a>
-          </div>
+        <div class="section-shell faq-shell">
+          <div class="section-intro"><h2>Questions before you apply?</h2></div>
+          <a class="button dark" href="#">View all FAQs <span>→</span></a>
         </div>
         <span class="module-tag">08 Frequently Asked Questions</span>
       </section>
