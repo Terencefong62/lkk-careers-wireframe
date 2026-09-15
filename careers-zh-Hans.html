@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>李锦记招聘 — 响应式线框稿</title>
+  <meta name="description" content="李锦记招聘页面的响应式线框稿，基于可重复使用的 CMS 组件构建。">
+  <style>
+    :root {
+      --ink: #111;
+      --paper: #fff;
+      --line: #b9b9b9;
+      --soft: #f3f3f3;
+      --page: min(1480px, calc(100vw - 96px));
+      --section-y: clamp(88px, 9vw, 154px);
+      --copy-gap: clamp(22px, 2.2vw, 34px);
+      --card-gap: clamp(18px, 2vw, 30px);
+      --serif: "ABC Arizona Flare", "ABC-Arizona-Flare", "Noto Serif SC", Georgia, "Times New Roman", serif;
+      --sans: Arial, "PingFang SC", "Noto Sans SC", Helvetica, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--sans); overflow-x: hidden; }
+    button, input, select { font: inherit; color: inherit; }
+    a { color: inherit; }
+    img, video { max-width: 100%; }
+    .skip-link { position: fixed; left: 12px; top: -60px; z-index: 200; background: #000; color: #fff; padding: 12px 18px; }
+    .skip-link:focus { top: 12px; }
+
+    .header-shell { position: fixed; inset: 0 0 auto; z-index: 100; background: rgba(255,255,255,.98); border-bottom: 1px solid var(--line); transition: transform .28s ease; }
+    .header-shell.is-hidden { transform: translateY(-105%); }
+    .utility-bar { height: 34px; padding: 0 max(28px, calc((100vw - 1740px) / 2)); display: flex; align-items: center; justify-content: flex-end; gap: 24px; border-bottom: 1px solid #ddd; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    .utility-bar button, .cms-toggle { border: 0; background: none; cursor: pointer; text-transform: uppercase; letter-spacing: .08em; }
+    .site-header { min-height: 82px; padding: 12px max(28px, calc((100vw - 1740px) / 2)); display: grid; grid-template-columns: 180px 1fr 52px; align-items: center; gap: 32px; }
+    .brand { display: inline-flex; align-items: center; text-decoration: none; }
+    .logo-placeholder { width: 92px; height: 48px; border: 1px solid #111; display: grid; place-items: center; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .primary-nav { display: flex; justify-content: center; gap: clamp(28px, 4vw, 66px); }
+    .primary-nav a { text-decoration: none; font-size: 14px; font-weight: 700; }
+    .search-button, .menu-button { width: 46px; height: 46px; border: 1px solid #111; background: #fff; cursor: pointer; }
+    .search-button svg { width: 22px; margin: auto; fill: none; stroke: currentColor; stroke-width: 1.7; }
+    .menu-button { display: none; font-size: 11px; text-transform: uppercase; }
+
+    main { padding-top: 117px; }
+    .module { position: relative; border-bottom: 1px solid var(--line); }
+    .module-tag { position: absolute; top: 24px; right: max(28px, calc((100vw - 1740px) / 2)); border: 1px solid #111; padding: 9px 12px; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: none; background: #fff; z-index: 4; white-space: nowrap; }
+    .section-shell { width: var(--page); margin: 0 auto; padding: var(--section-y) 0; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; text-transform: uppercase; overflow-wrap: normal; word-break: normal; }
+    h1 { font-size: clamp(54px, 6.3vw, 116px); line-height: .92; letter-spacing: -.045em; }
+    h2 { font-size: clamp(48px, 5.1vw, 92px); line-height: .95; letter-spacing: -.04em; }
+    h2 span { display: block; }
+    h3 { font-size: clamp(28px, 2.4vw, 44px); line-height: 1; letter-spacing: -.025em; }
+    p { font-size: 17px; line-height: 1.72; }
+    .lede { max-width: 720px; }
+    .button, .arrow-link { margin-top: 28px; display: inline-flex; align-items: center; justify-content: space-between; gap: 32px; min-height: 48px; text-transform: uppercase; font-size: 13px; line-height: 1.2; font-weight: 700; letter-spacing: .06em; text-decoration: none; }
+    .button { min-width: 220px; padding: 14px 18px; border: 1px solid #111; }
+    .button.dark { background: #111; color: #fff; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+    .hero-actions .button { margin-top: 0; }
+    .arrow-link { border-bottom: 1px solid currentColor; padding: 0 0 8px; }
+    [id] { scroll-margin-top: 132px; }
+    .section-intro { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(340px, .75fr); align-items: start; gap: clamp(54px, 8vw, 150px); margin-bottom: clamp(56px, 6vw, 100px); }
+    .section-intro > :last-child { padding-top: .35em; }
+    .media-placeholder { position: relative; overflow: hidden; min-height: 330px; border: 1px solid #111; background: repeating-linear-gradient(135deg, #fff 0 18px, #ececec 18px 36px); display: grid; place-items: center; }
+    .media-placeholder::after { content: ""; position: absolute; inset: -20%; background: linear-gradient(to top right, transparent 49.8%, #aaa 50%, transparent 50.2%); pointer-events: none; }
+    .media-label { position: relative; z-index: 2; max-width: 78%; padding: 10px 16px; background: rgba(255,255,255,.93); text-align: center; font-size: 12px; line-height: 1.35; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .component-note { display: none; }
+    body.show-cms [data-cms] { outline: 2px dashed #111; outline-offset: -8px; }
+    body.show-cms [data-cms] > .component-note { display: block; position: absolute; left: 12px; top: 12px; z-index: 8; background: #111; color: #fff; padding: 7px 9px; font-size: 10px; line-height: 1.2; letter-spacing: .06em; text-transform: uppercase; }
+
+    .hero-media { height: min(68vw, 760px); min-height: 560px; border-left: 0; border-right: 0; }
+    .hero-copy { width: var(--page); margin: 0 auto; padding: clamp(70px, 8vw, 128px) 0; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(340px, .72fr); gap: clamp(54px, 8vw, 150px); align-items: start; }
+    .hero-copy h1 span { display: block; }
+    .hero-copy > div:last-child { padding-top: .35em; }
+
+    .purpose-layout { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); align-items: center; gap: clamp(54px, 8vw, 140px); }
+    .purpose-copy h2 { margin-bottom: var(--copy-gap); }
+    .purpose-media { aspect-ratio: 4 / 3; }
+
+    .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+    .story-card { position: relative; min-width: 0; }
+    .story-card .media-placeholder { aspect-ratio: 16 / 10; }
+    .card-copy { padding: 28px 0 12px; }
+    .card-copy h3 { margin-bottom: 18px; }
+    .card-copy p { max-width: 590px; }
+    .values-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+    .values-grid .card-copy { padding: 28px 0 0; }
+
+    .benefit-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid #111; }
+    .benefit-card { min-height: 330px; padding: 34px 28px; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+    .benefit-card + .benefit-card { border-left: 1px solid #111; }
+    .icon-placeholder { width: 74px; height: 74px; border: 1px solid #111; display: grid; place-items: center; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-align: center; }
+    .benefit-card h3 { font-size: clamp(24px, 1.8vw, 34px); margin: 48px 0 14px; }
+    .benefit-card p { font-size: 15px; line-height: 1.55; }
+    .disclaimer { margin-top: 22px; font-size: 13px; line-height: 1.5; color: #444; }
+
+    .stories-editorial { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(32px, 4vw, 48px); align-items: start; }
+    .story-hero .media-placeholder { aspect-ratio: 16 / 10; min-height: 0; }
+    .story-hero-copy { padding-top: 24px; }
+    .story-hero-copy .employee-meta { margin-top: 0; }
+    .story-hero-copy h3 { margin-top: 12px; font-size: clamp(28px, 2.4vw, 40px); }
+    .story-hero-copy .employee-quote { margin-top: 16px; font-family: var(--serif); font-size: 21px; line-height: 1.35; }
+    .story-hero-copy .arrow-link { margin-top: 28px; }
+    .employee-meta { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; }
+    .story-list { border: 1px solid #111; }
+    .story-list-item { padding: clamp(20px, 2.2vw, 26px); display: grid; grid-template-columns: minmax(96px, 120px) minmax(0, 1fr) auto; gap: 18px 20px; align-items: center; }
+    .story-list-item + .story-list-item { border-top: 1px solid #111; }
+    .story-list-thumb { aspect-ratio: 16 / 10; min-height: 0; }
+    .story-list-item h4 { margin: 0 0 8px; font-family: var(--serif); font-size: clamp(20px, 1.6vw, 26px); font-weight: 400; text-transform: uppercase; line-height: 1.05; letter-spacing: -.025em; }
+    .story-list-item .employee-meta { margin: 0 0 8px; }
+    .story-list-item p { font-size: 14px; line-height: 1.5; }
+    .story-list-item .arrow-link { margin-top: 0; font-size: 12px; padding-bottom: 6px; white-space: nowrap; }
+
+    .pathway-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+    .pathway-card { position: relative; border: 1px solid #111; display: grid; grid-template-rows: auto 1fr; }
+    .pathway-card .media-placeholder { border: 0; border-bottom: 1px solid #111; aspect-ratio: 16 / 9; min-height: 0; }
+    .pathway-card .card-copy { padding: clamp(28px, 3vw, 48px); display: flex; flex-direction: column; align-items: flex-start; }
+    .pathway-card .arrow-link { margin-top: auto; padding-top: 28px; }
+
+    .journey-list { counter-reset: step; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid #111; border-bottom: 1px solid #111; }
+    .journey-step { counter-increment: step; min-height: 250px; padding: 28px 24px; position: relative; }
+    .journey-step + .journey-step { border-left: 1px solid #111; }
+    .journey-step::before { content: "0" counter(step); display: block; font-family: var(--serif); font-size: 52px; margin-bottom: 54px; }
+    .journey-step h3 { font-family: var(--sans); font-size: 15px; font-weight: 700; line-height: 1.3; letter-spacing: .05em; }
+    .journey-step p { margin-top: 12px; font-size: 14px; line-height: 1.5; }
+
+    .jobs-panel { border: 1px solid #111; }
+    .job-filters { padding: clamp(28px, 3vw, 48px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; gap: 14px; border-bottom: 1px solid #111; align-items: end; }
+    .field label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .field select { width: 100%; min-height: 50px; padding: 0 38px 0 14px; border: 1px solid #111; background: #fff; }
+    .filter-button { min-height: 50px; padding: 0 24px; border: 1px solid #111; background: #111; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+    .job-summary { padding: 18px clamp(28px, 3vw, 48px); border-bottom: 1px solid #111; font-size: 13px; display: flex; justify-content: space-between; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .job-list { padding: clamp(28px, 3vw, 48px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+    .job-card { border: 1px solid #111; background: #fff; padding: clamp(22px, 2.2vw, 28px); display: flex; flex-direction: column; min-height: 100%; }
+    .job-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
+    .job-card-location { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; line-height: 1.3; }
+    .job-card-location::before { content: "◎"; font-size: 12px; line-height: 1; }
+    .job-card-tag { border: 1px solid #111; padding: 6px 10px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+    .job-card h3 { font-size: clamp(24px, 1.9vw, 32px); line-height: 1.02; margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid #ddd; }
+    .job-card-infos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 16px; flex: 1; }
+    .job-card-infos > div:only-child { grid-column: 1 / -1; }
+    .job-card-infos dt { margin: 0 0 8px; font-size: 12px; line-height: 1.35; color: #444; }
+    .job-card-infos dd { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.35; }
+    .job-card-bottom { margin-top: 24px; padding-top: 18px; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .job-card-date { font-size: 13px; line-height: 1.45; color: #444; }
+    .job-card-link { font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+    .job-card-link:hover { text-decoration: underline; }
+
+    .faq-shell .section-intro { margin-bottom: clamp(20px, 2.5vw, 32px); }
+    .faq-shell .button { margin-top: 0; }
+
+    footer { border-top: 1px solid #111; padding: 70px max(28px, calc((100vw - 1740px) / 2)) 32px; }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; padding-bottom: 60px; }
+    .footer-top p { max-width: 430px; font-family: var(--serif); font-size: 28px; line-height: 1.25; }
+    .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; padding: 44px 0; border-top: 1px solid #111; }
+    .footer-grid strong, .footer-grid a { display: block; margin-bottom: 13px; font-size: 13px; text-decoration: none; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 24px; border-top: 1px solid #111; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+
+    @media (max-width: 1050px) {
+      :root { --page: min(100% - 48px, 920px); }
+      .primary-nav { gap: 24px; }
+      .site-header { grid-template-columns: 120px 1fr 46px; gap: 18px; }
+      .hero-actions .button { min-width: 200px; }
+      .benefit-grid { grid-template-columns: repeat(2, 1fr); }
+      .benefit-card:nth-child(3) { border-left: 0; border-top: 1px solid #111; }
+      .benefit-card:nth-child(4) { border-top: 1px solid #111; }
+      .stories-editorial { grid-template-columns: 1fr; }
+      .journey-list { grid-template-columns: repeat(3, 1fr); }
+      .journey-step:nth-child(4) { border-left: 0; border-top: 1px solid #111; }
+      .journey-step:nth-child(5) { border-top: 1px solid #111; }
+      .job-filters { grid-template-columns: repeat(2, 1fr); }
+      .filter-button { grid-column: 2; }
+      .job-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px) {
+      :root { --page: calc(100% - 40px); --section-y: 82px; --copy-gap: 18px; --card-gap: 18px; }
+      .utility-bar { height: 32px; padding: 0 18px; gap: 14px; }
+      .utility-bar > a { display: none; }
+      .site-header { min-height: 68px; padding: 9px 18px; grid-template-columns: 1fr auto auto; gap: 8px; }
+      .logo-placeholder { width: 72px; height: 42px; }
+      .primary-nav { display: none; }
+      .menu-button { display: block; }
+      main { padding-top: 101px; }
+      .module-tag { top: 12px; right: 12px; max-width: calc(100% - 24px); padding: 8px 10px; font-size: 11px; }
+      h1 { font-size: clamp(44px, 13vw, 64px); line-height: .94; }
+      h2 { font-size: clamp(39px, 11.4vw, 54px); line-height: .97; }
+      h3 { font-size: 30px; }
+      p { font-size: 16px; line-height: 1.65; }
+      .button, .arrow-link { margin-top: 24px; }
+      .hero-actions { margin-top: 24px; gap: 12px; }
+      .hero-actions .button { width: 100%; min-width: 0; justify-content: center; }
+      [id] { scroll-margin-top: 112px; }
+      .section-intro, .hero-copy, .purpose-layout { grid-template-columns: minmax(0, 1fr); gap: var(--copy-gap); }
+      .section-intro { margin-bottom: 46px; }
+      .section-intro > :last-child, .hero-copy > div:last-child { padding-top: 0; }
+      .hero-media { height: 58vh; min-height: 430px; }
+      .hero-copy { padding: 64px 0 72px; }
+      .purpose-layout { gap: 42px; }
+      .purpose-copy { order: 1; }
+      .purpose-media { order: 2; aspect-ratio: 4 / 3; }
+      .card-grid, .pathway-grid, .values-grid { grid-template-columns: 1fr; }
+      .story-card .media-placeholder { min-height: 0; }
+      .benefit-grid { grid-template-columns: 1fr; }
+      .benefit-card { min-height: 280px; padding: 28px 22px; }
+      .benefit-card h3 { margin: 36px 0 12px; }
+      .benefit-card + .benefit-card, .benefit-card:nth-child(3), .benefit-card:nth-child(4) { border-left: 0; border-top: 1px solid #111; }
+      .stories-editorial { gap: var(--copy-gap); }
+      .story-list-item { grid-template-columns: 88px minmax(0, 1fr); gap: 14px 16px; }
+      .story-list-item .arrow-link { grid-column: 1 / -1; justify-self: start; }
+      .journey-list { grid-template-columns: 1fr; }
+      .journey-step { min-height: 0; display: grid; grid-template-columns: 62px 1fr; column-gap: 18px; padding: 24px 0; }
+      .journey-step + .journey-step, .journey-step:nth-child(4), .journey-step:nth-child(5) { border-left: 0; border-top: 1px solid #111; }
+      .journey-step::before { grid-row: 1 / span 2; margin: 0; padding-left: 4px; font-size: 36px; }
+      .journey-step h3 { grid-column: 2; grid-row: 1; align-self: start; }
+      .journey-step p { grid-column: 2; }
+      .job-filters { grid-template-columns: 1fr; padding: 24px 20px; }
+      .filter-button { grid-column: auto; }
+      .job-summary { padding: 16px 20px; flex-direction: column; gap: 4px; }
+      .job-list { padding: 24px 20px; grid-template-columns: 1fr; }
+      .job-card { padding: 22px 20px; }
+      .job-card-infos { grid-template-columns: 1fr; }
+      .job-card-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .faq-shell .button { width: 100%; justify-content: center; }
+      .footer-top { flex-direction: column; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-bottom { flex-direction: column; }
+      body.show-cms [data-cms] { outline-offset: -5px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .header-shell { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">跳转至内容</a>
+  <header class="header-shell is-visible">
+    <div class="utility-bar">
+      <a href="#">消费者网站</a>
+      <button class="cms-toggle" type="button" aria-pressed="false">CMS 附注：关闭</button>
+      <button type="button" aria-label="选择语言">◎ 简体中文 ⌄</button>
+    </div>
+    <div class="site-header">
+      <a class="brand" href="#top" aria-label="李锦记首页"><span class="logo-placeholder">Logo</span></a>
+      <nav class="primary-nav" aria-label="主导航">
+        <a href="#how-we-work">关于我们</a><a href="#jobs">我们的业务</a><a href="#how-we-work">我们的承诺</a><a href="#stories">企业新闻</a><a href="#jobs">招聘</a>
+      </nav>
+      <button class="search-button" type="button" aria-label="搜索"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5"></circle><path d="m15 15 5 5"></path></svg></button>
+      <button class="menu-button" type="button" aria-label="打开菜单">菜单</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <div id="content">
+      <section class="module hero" data-cms="Hero: full-width media + copy + CTA">
+        <span class="component-note">CMS · Hero media + copy</span>
+        <div class="media-placeholder hero-media" role="img" aria-label="员工主导的形象影片或纪实照片占位图"><span class="media-label">员工主导的形象影片或纪实照片占位图</span></div>
+        <div class="hero-copy">
+          <h1>加入我们，共创下一章</h1>
+          <div><p>每一款李锦记产品的背后，都有来自不同岗位的同事，以各自的专业为消费者和专业客户带来美味。从研发、生产制造、供应链，到销售、品牌及企业职能，探索你的专长如何在一家全球食品企业中发挥价值，与我们共同书写下一章。</p><div class="hero-actions"><a class="button dark" href="#how-we-work">开启旅程 <span>→</span></a><a class="button" href="#jobs">查看职位 <span>→</span></a></div></div>
+        </div>
+        <span class="module-tag">01 李锦记招聘</span>
+      </section>
+
+      <section class="module" id="how-we-work" data-cms="Section intro + value card grid: 3 items">
+        <span class="component-note">CMS · Section intro + value cards · 3 items</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>让价值观体现在日常工作中</h2><div><p>我们的价值观指导着与同事、客户及合作伙伴的相处与协作，也体现在如何倾听、承担责任，以及维护李锦记的品质。</p></div></div>
+          <div class="card-grid values-grid">
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">思及他人形象图</span></div><div class="card-copy"><h3>思及他人</h3><p>思利及人，意味着考虑他人的利益。在共同推进工作时，我们倾听不同意见，兼顾其他团队的需要，一起实现共同目标。</p></div></article>
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">持续进取形象图</span></div><div class="card-copy"><h3>持续进取</h3><p>永远创业，鼓励我们保持好奇、主动行动，不断改善做事的方法，并对成果负责。</p></div></article>
+            <article class="story-card"><div class="media-placeholder"><span class="media-label">坚守品质形象图</span></div><div class="card-copy"><h3>坚守品质</h3><p>秉持100-1=0的品质理念，我们以认真负责的态度对待产品、流程与日常工作。</p></div></article>
+          </div>
+        </div>
+        <span class="module-tag">02 我们的工作方式</span>
+      </section>
+
+      <section class="module" data-cms="Reusable benefit card grid: 4 items">
+        <span class="component-note">CMS · Benefit card grid · 4 items</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2><span>发展事业，</span><span>也关照生活</span></h2><div><p>职业成长，也需要为工作之外的生活留出空间。我们倡导健康、家庭与事业三方面的平衡，并以此思考员工的发展与支持。</p></div></div>
+          <div class="benefit-grid">
+            <article class="benefit-card"><span class="icon-placeholder">ICON</span><div><h3>学习与实践</h3><p>通过实际工作、学习，以及与同事交流知识和经验，不断提升专业能力。</p></div></article>
+            <article class="benefit-card"><span class="icon-placeholder">ICON</span><div><h3>贡献与认可</h3><p>我们重视每个人投入的专业、努力与贡献，薪酬与认可安排结合岗位及当地市场情况。</p></div></article>
+            <article class="benefit-card"><span class="icon-placeholder">ICON</span><div><h3>健康与身心支持</h3><p>健康与身心状态，是我们关顾员工职业生活的重要部分。</p></div></article>
+            <article class="benefit-card"><span class="icon-placeholder">ICON</span><div><h3>家庭与生活</h3><p>我们重视家庭，也理解员工在不同人生阶段的不同需要。</p></div></article>
+          </div>
+          <p class="disclaimer">具体项目与福利安排因岗位及工作地点而异。</p>
+        </div>
+        <span class="module-tag">03 成长与福利</span>
+      </section>
+
+      <section class="module" id="stories" data-cms="Editorial hero + employee story list">
+        <span class="component-note">CMS · Editorial hero + story list</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>认识工作背后的每一位同事</h2><div><p>在李锦记发展事业，是怎样的体验？听同事分享他们的工作、曾经面对的挑战，以及一路积累的经验。透过不同的经历，了解我们的文化如何体现在日常工作中，以及不同的专长与视角如何共同促成成果。</p><a class="arrow-link" href="#">阅读全部故事 <span>→</span></a></div></div>
+          <div class="stories-editorial">
+            <article class="story-hero">
+              <div class="media-placeholder"><span class="media-label">员工故事精选形象图</span></div>
+              <div class="story-hero-copy"><p class="employee-meta">姓名 · 职位 · 地点</p><h3>跨市场协作</h3><p class="employee-quote">“来自CMS的员工精选语录范例。”</p><a class="arrow-link" href="#">阅读完整故事 <span>→</span></a></div>
+            </article>
+            <div class="story-list" aria-label="更多员工故事">
+              <article class="story-list-item"><div class="media-placeholder story-list-thumb"><span class="media-label">故事形象图</span></div><div><p class="employee-meta">姓名 · 职位 · 地点</p><h4>职业成长</h4><p>列表预览用的引导文字，完整故事请见详情页。</p></div><a class="arrow-link" href="#">阅读 <span>→</span></a></article>
+              <article class="story-list-item"><div class="media-placeholder story-list-thumb"><span class="media-label">故事形象图</span></div><div><p class="employee-meta">姓名 · 职位 · 地点</p><h4>从储备干部到管理层</h4><p>列表预览用的引导文字，完整故事请见详情页。</p></div><a class="arrow-link" href="#">阅读 <span>→</span></a></article>
+              <article class="story-list-item"><div class="media-placeholder story-list-thumb"><span class="media-label">故事形象图</span></div><div><p class="employee-meta">姓名 · 职位 · 地点</p><h4>跨地区的职业发展</h4><p>列表预览用的引导文字，完整故事请见详情页。</p></div><a class="arrow-link" href="#">阅读 <span>→</span></a></article>
+            </div>
+          </div>
+        </div>
+        <span class="module-tag">04 员工故事</span>
+      </section>
+
+      <section class="module" data-cms="Reusable image card grid: 2 pathways">
+        <span class="component-note">CMS · Image cards · 2 pathways</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>从这里，探索你的可能</h2><div><p>职业初期的经历，能够帮助你找到未来的方向。通过实习和毕业生机会，将所学用于实践，了解一家食品企业如何运作，并在与经验丰富的同事共事中积累能力。</p></div></div>
+          <div class="pathway-grid">
+            <article class="pathway-card"><div class="media-placeholder"><span class="media-label">实习生形象图</span></div><div class="card-copy"><h3>实习机会</h3><p>走近真实的日常工作，参与实际项目，探索自己的兴趣与优势可以在哪里发挥。</p><a class="arrow-link" href="#">了解更多 <span>→</span></a></div></article>
+            <article class="pathway-card"><div class="media-placeholder"><span class="media-label">毕业生机会形象图</span></div><div class="card-copy"><h3>毕业生机会</h3><p>通过工作实践、学习与协作，逐步建立专业能力，加深对业务的理解。</p><a class="arrow-link" href="#">了解更多 <span>→</span></a></div></article>
+          </div>
+          <p class="disclaimer">具体机会及申请时间因地区而异。</p>
+        </div>
+        <span class="module-tag">05 学生与毕业生</span>
+      </section>
+
+      <section class="module" id="jobs" data-cms="Recruitment feed + controlled taxonomy filters">
+        <span class="component-note">Integration · Recruitment feed + filters</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>找到适合你的机会</h2><div><p>探索不同团队与工作地点的职位机会，寻找与你的经验和兴趣相契合的岗位，了解工作内容，迈出下一步。下方的招聘流程与常见问题，可以帮助你准备申请。</p></div></div>
+          <div class="jobs-panel">
+            <form class="job-filters">
+              <div class="field"><label for="location">工作地点</label><select id="location"><option>所有地点</option><option>亚太</option><option>欧洲</option><option>美洲</option></select></div>
+              <div class="field"><label for="department">部门</label><select id="department"><option>所有部门</option><option>品牌与销售</option><option>研发</option><option>供应链</option></select></div>
+              <div class="field"><label for="job-type">职位类型</label><select id="job-type"><option>所有职位类型</option><option>长期职位</option><option>实习</option><option>毕业生项目</option></select></div>
+              <div class="field"><label for="arrangement">工作方式</label><select id="arrangement"><option>所有工作方式</option><option>现场办公</option><option>混合办公</option><option>远程办公</option></select></div>
+              <button class="filter-button" type="submit">搜索职位</button>
+            </form>
+            <div class="job-summary"><strong>2 个职位</strong><span>排序：最新优先</span></div>
+            <div class="job-list">
+              <article class="job-card">
+                <div class="job-card-top"><span class="job-card-location">广州</span><span class="job-card-tag">全职</span></div>
+                <h3>人力资源信息系统专员</h3>
+                <dl class="job-card-infos">
+                  <div><dt>部门</dt><dd>人力资源</dd></div>
+                  <div><dt>工作方式</dt><dd>现场办公</dd></div>
+                </dl>
+                <div class="job-card-bottom"><span class="job-card-date">发布日期：2026年4月21日</span><a class="job-card-link" href="#">立即申请 ↗</a></div>
+              </article>
+              <article class="job-card">
+                <div class="job-card-top"><span class="job-card-location">江门</span><span class="job-card-tag">全职</span></div>
+                <h3>毕业生培训生</h3>
+                <dl class="job-card-infos">
+                  <div><dt>工作方式</dt><dd>现场办公</dd></div>
+                </dl>
+                <div class="job-card-bottom"><span class="job-card-date">发布日期：2026年3月4日</span><a class="job-card-link" href="#">立即申请 ↗</a></div>
+              </article>
+            </div>
+          </div>
+        </div>
+        <span class="module-tag">06 职位机会</span>
+      </section>
+
+      <section class="module" data-cms="Process steps repeater: 5 items">
+        <span class="component-note">CMS · Process steps · 5 items</span>
+        <div class="section-shell">
+          <div class="section-intro"><h2>了解申请的每一步</h2></div>
+          <div class="journey-list">
+            <article class="journey-step"><h3>提交申请</h3><p>选择职位，提交你的申请。</p></article>
+            <article class="journey-step"><h3>审核与筛选</h3><p>招聘团队将评估你的经验与岗位匹配度。</p></article>
+            <article class="journey-step"><h3>面试或评估</h3><p>透过线上或线下面试，与团队见面交流。视乎职位性质，可能包括案例分析、小组讨论或实务任务。</p></article>
+            <article class="journey-step"><h3>录用通知</h3><p>获录用者将收到职位及当地雇佣条款的详情。</p></article>
+            <article class="journey-step"><h3>开启你的故事</h3><p>在你需要的支持下开启旅程——加入一个信任你、赋能你，并投资于你长远发展的团队。</p></article>
+          </div>
+          <p class="disclaimer">具体流程可能因岗位及工作地点而异。</p>
+        </div>
+        <span class="module-tag">07 招聘流程</span>
+      </section>
+
+      <section class="module" id="faq" data-cms="FAQ CTA">
+        <span class="component-note">CMS · FAQ CTA</span>
+        <div class="section-shell faq-shell">
+          <div class="section-intro"><h2>申请前，还有哪些疑问？</h2></div>
+          <a class="button dark" href="#">查看所有常见问题 <span>→</span></a>
+        </div>
+        <span class="module-tag">08 常见问题</span>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-top"><span class="logo-placeholder">Logo</span><p>加入一家传承激励前行的全球企业</p></div>
+    <div class="footer-grid"><div><strong>关于我们</strong><a href="#how-we-work">我们的工作方式</a></div><div><strong>招聘</strong><a href="#stories">员工故事</a><a href="#jobs">空缺职位</a></div><div><strong>校园招聘</strong><a href="#">实习机会</a><a href="#">毕业生机会</a></div><div><strong>支持与帮助</strong><a href="#faq">常见问题</a><a href="#">联系我们</a></div></div>
+    <div class="footer-bottom"><span>© 李锦记 · 仅供线框稿参考</span><span>隐私政策 · 条款 · 无障碍声明</span></div>
+  </footer>
+
+  <script>
+    (() => {
+      const header = document.querySelector('.header-shell');
+      let previousY = 0;
+      addEventListener('scroll', () => {
+        const currentY = Math.max(scrollY, 0);
+        if (currentY <= 16 || currentY < previousY - 8) header.classList.remove('is-hidden');
+        else if (currentY > previousY + 8) header.classList.add('is-hidden');
+        if (Math.abs(currentY - previousY) > 8 || currentY <= 16) previousY = currentY;
+      }, { passive: true });
+
+      const cmsToggle = document.querySelector('.cms-toggle');
+      cmsToggle.addEventListener('click', () => {
+        const active = document.body.classList.toggle('show-cms');
+        cmsToggle.setAttribute('aria-pressed', String(active));
+        cmsToggle.textContent = `CMS 附注：${active ? '开启' : '关闭'}`;
+      });
+
+      document.querySelector('.job-filters').addEventListener('submit', event => event.preventDefault());
+    })();
+  </script>
+</body>
+</html>
